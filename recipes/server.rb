@@ -167,6 +167,10 @@ if platform?(%w{mac_os_x})
   end
 
 else
+  service "mysql" do
+    action :start
+  end
+
   grants_path = node['mysql']['grants_path']
   begin
     t = resources("template[#{grants_path}]")
@@ -193,9 +197,5 @@ else
       action :nothing
       subscribes :run, resources("template[#{grants_path}]"), :immediately
     end
-  end
-
-  service "mysql" do
-    action :start
   end
 end
